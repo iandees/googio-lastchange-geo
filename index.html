@@ -17,7 +17,7 @@
               alert("Geolocation start.");
               watch = navigator.geolocation.watchPosition(function(position) {
                 alert(position);
-              });
+              }, null,{'enableHighAccuracy': true});
             } else {
               alert("No geolocation.");
             }
