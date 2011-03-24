@@ -14,13 +14,24 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   </head> 
   <body> 
+    <div id="home-page" data-role="page">
+      <div data-role="content">
+        <center><h3>San Francisco Walking Tours</h3></center>
+        <ul data-role="listview" data-inset="true">
+          <li><a href="#gmap-2">Record a Tour</a></li>
+          <li><a href="#find-tours">Find Nearby Tours</a></li>
+        </ul>
+      </div>
+    </div>
     <div id="gmap-2" data-role="page"> 
 
       <div data-role="header" class="ui-bar" data-position="fixed">
-        <a href="#" data-role="button" id="record-button">Start Recording</a>
-        <a href="#" data-role="button" id="save-button">Save Recording</a>
-        <h1>&nbsp;</h1>
+        <div data-role="buttongroup">
+          <a href="#" data-role="button" id="record-button">Start Recording</a>
+          <a href="#" data-role="button" id="save-button">Save Recording</a>
+        </div>
         <a href="#" data-role="button" id="nearby-button">Nearby Tours</a>
+        <h4>&nbsp;</h4>
       </div>
       <div data-role="content">
         <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
@@ -41,10 +52,16 @@
           zoom: 15,
           callback: function(map) {
             if(navigator.geolocation) {
+              var poly = new google.maps.Polyline({
+                strokeColor: '#ff0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 3,
+                map: map
+              });
               watch = navigator.geolocation.watchPosition(function(pos) {
                 if(recording) {
-                  points.push(pos.coords);
-                  $('#point-count').text(points.length + " points saved.");
+                  poly.getPath().push(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+                  $('#point-count').text(poly.getPath().length + " points saved.");
                 }
               }, null, { enableHighAccuracy: true, timeout: 15000, maximumAge: 15000 });
             }
