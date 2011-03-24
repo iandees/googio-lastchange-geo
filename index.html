@@ -7,6 +7,10 @@
     <script type="text/javascript" src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="jquery.ui.map.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {});
+    </script>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   </head> 
   <body> 
@@ -65,7 +69,12 @@
           return false;
         });
         $('#save-button').click(function() {
+          var queryText = encodeURIComponent("SELECT 'date','used' FROM 590460");
+          var query = new google.visualization.Query('http://www.google.com/fusiontables/gvizdata?tq=' + queryText);
 
+          query.send(function(response){
+            alert(response.getDataTable().getNumberOfRows());
+          });
           return false;
         });
         $('#nearby-button').click(function() {
