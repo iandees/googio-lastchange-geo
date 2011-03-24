@@ -12,13 +12,29 @@
     <div id="gmap-2" data-role="page"> 
       <script type="text/javascript">
         $('#gmap-2').live("pageshow", function() {
-          $('#map_canvas').gmap({'center': getLatLng(), 'callback': function() {
+          $('#map_canvas').gmap({'center': getLatLng(), 'callback': function(map) {
+            if(navigator.geolocation) {
+              alert("Geolocation start.");
+              watch = navigator.geolocation.watchPosition(function(position) {
+                alert(position);
+              });
+            } else {
+              alert("No geolocation.");
+            }
             $('#map_canvas').gmap('addMarker', {'position': getLatLng(), 'title': 'Hello world!'});
            }
           });
           function getLatLng() {
             return new google.maps.LatLng(59.3426606750, 18.0736160278);
           }
+        });
+        $('#gmap-2').live("pagehide", function() {
+          if(navigator.geolocation) {
+            navigator.geolocation.clearWatch(watch);
+          }
+        });
+        $('#gmap-2').live("pagecreate", function() {
+          var watch;
         });
       </script>     
       <div data-role="content">
