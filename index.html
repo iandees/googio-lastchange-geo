@@ -7,6 +7,7 @@
     <script type="text/javascript" src="http://code.jquery.com/mobile/1.0a3/jquery.mobile-1.0a3.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="jquery.ui.map.js"></script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   </head> 
   <body> 
     <div id="gmap-2" data-role="page"> 
@@ -18,7 +19,7 @@
             callback: function(map) {
               if(navigator.geolocation) {
                 navigator.geolocation.watchPosition(function(pos) {
-                  alert("New location.");
+                  points.append(pos.coords);
                 }, null, { enableHighAccuracy: true, timeout: 15000, maximumAge: 15000 });
               }
             }
@@ -31,13 +32,21 @@
         });
         $('#gmap-2').live("pagecreate", function() {
           var watch;
+          var points = [];
         });
       </script>     
+      <div data-role="header" data-position="fixed">
+        <div data-role="controlgroup" data-type="horizontal">
+          <button>Record</button>
+          <button>Save Path</button>
+        </div>
+      </div>
       <div data-role="content">
         <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
           <div id="map_canvas" style="height:300px;"></div>
         </div>
       </div> 
+
     </div> 
   </body>
 </html>
