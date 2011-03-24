@@ -18,12 +18,12 @@
       <div data-role="content">
         <center><h3>San Francisco Walking Tours</h3></center>
         <ul data-role="listview" data-inset="true">
-          <li><a href="#gmap-2">Record a Tour</a></li>
+          <li><a href="#record-tours">Record a Tour</a></li>
           <li><a href="#find-tours">Find Nearby Tours</a></li>
         </ul>
       </div>
     </div>
-    <div id="gmap-2" data-role="page"> 
+    <div id="record-tours" data-role="page"> 
 
       <div data-role="header" class="ui-bar" data-position="fixed">
         <div data-role="buttongroup">
@@ -46,7 +46,7 @@
       var points = [];
       var watch;
 
-      $('#gmap-2').live("pageshow", function() {
+      $('#record-tours').live("pageshow", function() {
         $('#map_canvas').gmap({
           center: new google.maps.LatLng(37.78469, -122.40216),
           zoom: 15,
@@ -68,12 +68,12 @@
           }
         });
       });
-      $('#gmap-2').live("pagehide", function() {
+      $('#record-tours').live("pagehide", function() {
         if(navigator.geolocation) {
           navigator.geolocation.clearWatch(watch);
         }
       });
-      $('#gmap-2').live("pagecreate", function() {
+      $('#record-tours').live("pagecreate", function() {
         var points = []; 
         $('#record-button').click(function() {
           if(recording) {
