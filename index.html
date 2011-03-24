@@ -19,7 +19,9 @@
             callback: function(map) {
               if(navigator.geolocation) {
                 navigator.geolocation.watchPosition(function(pos) {
-                  points.append(pos.coords);
+                  if(recording) {
+                    points.append(pos.coords);
+                  }
                 }, null, { enableHighAccuracy: true, timeout: 15000, maximumAge: 15000 });
               }
             }
@@ -33,13 +35,16 @@
         $('#gmap-2').live("pagecreate", function() {
           var watch;
           var points = [];
+          var recording = false;
+          $('#record-button').click(function() {
+            alert("Clicked button.");
+          });
         });
+        
       </script>     
-      <div data-role="header" data-position="fixed">
-        <div data-role="controlgroup" data-type="horizontal">
-          <button>Record</button>
-          <button>Save Path</button>
-        </div>
+      <div data-role="header" class="ui-bar" data-position="fixed">
+        <button id="record-button">Record</button>
+        <button>Save Path</button>
       </div>
       <div data-role="content">
         <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
