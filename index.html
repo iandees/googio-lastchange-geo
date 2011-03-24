@@ -26,18 +26,15 @@
     <div id="record-tours" data-role="page"> 
 
       <div data-role="header" class="ui-bar" data-position="fixed">
-        <div data-role="buttongroup">
-          <a href="#" data-role="button" id="record-button">Start Recording</a>
-          <a href="#" data-role="button" id="save-button">Save Recording</a>
-        </div>
-        <a href="#" data-role="button" id="nearby-button">Nearby Tours</a>
+        <a href="#" data-role="button" id="record-button">Start Recording</a>
+        <a href="#" data-role="button" id="save-button">Save Recording</a>
         <h4>&nbsp;</h4>
       </div>
       <div data-role="content">
         <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
           <div id="map_canvas" style="height:300px;"></div>
         </div>
-        <p id="point-count">0 points saved.</p>
+        <p id="point-count">0 points recorded.</p>
       </div> 
 
     </div> 
@@ -59,9 +56,11 @@
                 map: map
               });
               watch = navigator.geolocation.watchPosition(function(pos) {
+                var newpos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                map.setCenter(newpos);
                 if(recording) {
-                  poly.getPath().push(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-                  $('#point-count').text(poly.getPath().length + " points saved.");
+                  poly.getPath().push(newpos);
+                  $('#point-count').text(poly.getPath().length + " points recorded.");
                 }
               }, null, { enableHighAccuracy: true, timeout: 15000, maximumAge: 15000 });
             }
