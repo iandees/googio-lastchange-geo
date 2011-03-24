@@ -14,14 +14,10 @@
         $('#gmap-2').live("pageshow", function() {
           $('#map_canvas').gmap({'center': getLatLng(), 'callback': function(map) {
             if(navigator.geolocation) {
-              alert("Geolocation start.");
               watch = navigator.geolocation.watchPosition(function(position) {
-                alert(position);
-              }, null,{'enableHighAccuracy': true});
-            } else {
-              alert("No geolocation.");
+                $('#map_canvas').gmap({'center': new google.maps.LatLng(position.coords.latitude, position.coords.longitude)});
+              }, null, {'enableHighAccuracy': true});
             }
-            $('#map_canvas').gmap('addMarker', {'position': getLatLng(), 'title': 'Hello world!'});
            }
           });
           function getLatLng() {
