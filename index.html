@@ -12,7 +12,17 @@
     <div id="gmap-2" data-role="page"> 
       <script type="text/javascript">
         $('#gmap-2').live("pageshow", function() {
-          $('#map_canvas').gmap({center: new google.maps.LatLng(37.78469, -122.40216), zoom: 9});
+          $('#map_canvas').gmap({
+            center: new google.maps.LatLng(37.78469, -122.40216),
+            zoom: 15,
+            callback: function(map) {
+              if(navigator.geolocation) {
+                navigator.geolocation.watchPosition(function(pos) {
+                  alert("New location.");
+                }, null, { enableHighAccuracy: true, timeout: 15000, maximumAge: 15000 });
+              }
+            }
+          });
         });
         $('#gmap-2').live("pagehide", function() {
           if(navigator.geolocation) {
