@@ -11,47 +11,59 @@
   </head> 
   <body> 
     <div id="gmap-2" data-role="page"> 
-      <script type="text/javascript">
-        $('#gmap-2').live("pageshow", function() {
-          $('#map_canvas').gmap({
-            center: new google.maps.LatLng(37.78469, -122.40216),
-            zoom: 15,
-            callback: function(map) {
-              if(navigator.geolocation) {
-                navigator.geolocation.watchPosition(function(pos) {
-                  if(recording) {
-                    points.append(pos.coords);
-                  }
-                }, null, { enableHighAccuracy: true, timeout: 15000, maximumAge: 15000 });
-              }
-            }
-          });
-        });
-        $('#gmap-2').live("pagehide", function() {
-          if(navigator.geolocation) {
-            navigator.geolocation.clearWatch(watch);
-          }
-        });
-        $('#gmap-2').live("pagecreate", function() {
-          var watch;
-          var points = [];
-          var recording = false;
-          $('#record-button').click(function() {
-            alert("Clicked button.");
-          });
-        });
-        
-      </script>     
+
       <div data-role="header" class="ui-bar" data-position="fixed">
-        <button id="record-button">Record</button>
-        <button>Save Path</button>
+        <a href="#" data-role="button" id="record-button">Start Recording</a>
+        <h1>&nbsp;</h1>
       </div>
       <div data-role="content">
         <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
           <div id="map_canvas" style="height:300px;"></div>
         </div>
+        <p id="point-count">0 points saved.</p>
       </div> 
 
     </div> 
+    <script type="text/javascript">
+      var recording = false;
+      var points = [];
+      var watch;
+
+      $('#gmap-2').live("pageshow", function() {
+        $('#map_canvas').gmap({
+          center: new google.maps.LatLng(37.78469, -122.40216),
+          zoom: 15,
+          callback: function(map) {
+            if(navigator.geolocation) {
+              watch = navigator.geolocation.watchPosition(function(pos) {
+                if(recording) {
+                  points.push(pos.coords);
+                  $('#point-count').text(points.length + " points saved.");
+                }
+              }, null, { enableHighAccuracy: true, timeout: 15000, maximumAge: 15000 });
+            }
+          }
+        });
+      });
+      $('#gmap-2').live("pagehide", function() {
+        if(navigator.geolocation) {
+          navigator.geolocation.clearWatch(watch);
+        }
+      });
+      $('#gmap-2').live("pagecreate", function() {
+        var points = []; 
+        $('#record-button').click(function() {
+          if(recording) {
+            $('#record-button .ui-btn-text').text("Start Recording");
+            recording = false;
+          } else {
+            $('#record-button .ui-btn-text').text("Stop Recording");
+            recording = true;
+          }
+          return false;
+        });
+      });
+      
+    </script>
   </body>
 </html>
