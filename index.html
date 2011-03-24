@@ -44,10 +44,75 @@
       var watch;
 
       $('#record-tours').live("pageshow", function() {
+          var style = [
+          {
+            featureType: "administrative.land_parcel",
+            elementType: "all",
+            stylers: [
+              { visibility: "off" }
+            ]
+          },{
+            featureType: "landscape.man_made",
+            elementType: "all",
+            stylers: [
+              { visibility: "on" }
+            ]
+          },{
+            featureType: "poi.attraction",
+            elementType: "all",
+            stylers: [
+              { visibility: "on" }
+            ]
+          },{
+            featureType: "road.highway",
+            elementType: "all",
+            stylers: [
+              { saturation: -99 }
+            ]
+          },{
+            featureType: "road.arterial",
+            elementType: "all",
+            stylers: [
+              { saturation: -77 }
+            ]
+          },{
+            featureType: "road.local",
+            elementType: "all",
+            stylers: [
+              { saturation: -60 },
+              { lightness: 41 }
+            ]
+          },{
+            featureType: "administrative.locality",
+            elementType: "labels",
+            stylers: [
+              { visibility: "off" }
+            ]
+          },{
+            featureType: "road.highway",
+            elementType: "labels",
+            stylers: [
+              { visibility: "off" }
+            ]
+          },{
+            featureType: "road",
+            elementType: "all",
+            stylers: [
+
+            ]
+          }
+        ];
+        var styledMapOptions = { name: "Simple" };
+        var simpleMapType = new google.maps.StyledMapType(style, styledMapOptions);
         $('#map_canvas').gmap({
           center: new google.maps.LatLng(37.78469, -122.40216),
           zoom: 15,
+          mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'simples']
+          },
           callback: function(map) {
+            map.mapTypes.set('simples', simpleMapType);
+            map.setMapTypeId('simples');
             if(navigator.geolocation) {
               var poly = new google.maps.Polyline({
                 strokeColor: '#ff0000',
